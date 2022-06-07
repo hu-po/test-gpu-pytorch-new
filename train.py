@@ -42,11 +42,11 @@ if __name__ == "__main__":
     # Tell framework to use specific GPUs
     print('\n---\tGPU Information\t---\n')
     print(f'\tPyTorch was able to find CUDA: {torch.cuda.is_available()}')
-    print(f'\tPyTorch was able to find GPUs: {torch.cuda.device_count()}')
+    print(f'\tPyTorch was able to find {torch.cuda.device_count()} GPUs')
     assert torch.cuda.is_available(), 'Torch was unable to find CUDA'
 
     if args.gpu >= 0:
-        assert args.gpu < torch.cuda.device_count(), f'Invalid GPU {args.gpu} specified: found {torch.cuda.device_count()}'
+        assert args.gpu < torch.cuda.device_count(), f'Invalid GPU: {args.gpu} specified, but only found {torch.cuda.device_count()}'
         print(f'\tUsing GPU {args.gpu}')
         _device = torch.device(f'cuda:{args.gpu}')
     else:
