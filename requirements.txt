@@ -1,3 +1,4 @@
 argparse
-torch==1.10.0+cu111
-wandb
+torch==1.10.0
+# wandb
+git+https://github.com/wandb/client.git@summerhack/launch#egg=wandb[launch]
