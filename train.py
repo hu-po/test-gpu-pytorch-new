@@ -58,12 +58,11 @@ if __name__ == "__main__":
     print('\n---\tFake Training\t---\n')
     start_time = time.time()
     while time.time() - start_time < args.train_time:
-        a = torch.randn(100, 100).to(_device)
-        b = torch.randn(100, 100).to(_device)
-        c = torch.mm(a, b).to(_device)
         time_remaining = int(args.train_time - (time.time() - start_time))
         print(f'\tTraining, {time_remaining} seconds remaining.')
-        wandb.log({"alive_time": time_remaining})
-        time.sleep(1)
+        wandb.log({"foo_metric": time_remaining})
+        a = torch.randn(32, 32).to(_device)
+        b = torch.randn(32, 32).to(_device)
+        c = torch.mm(a, b).to(_device)
 
     wandb.finish()
