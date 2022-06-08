@@ -26,6 +26,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     wandb.login(key=os.getenv('WANDB_API_KEY'))
     run = wandb.init(project=args.project)
+    run.log_code(".")
 
     # Print out wandb information
     print('\n\n---\tWandB Information\t---\n')
