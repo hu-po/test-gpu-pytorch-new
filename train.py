@@ -20,6 +20,7 @@ parser.add_argument("--train_time", type=int, default=30)
 TARGET_GPU_UTILIZATION = 0.9
 MIN_LOG_INTERVAL = 1
 GPU_MEM_GROWTH_RATE = 1.07
+INITIAL_TENSOR_SIZE = 8
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -74,7 +75,7 @@ if __name__ == "__main__":
         print(f'\tPytorch: created device using GPU {id}')
 
     # Increase size of tensor over time until max GPU memory utilization
-    tensor_size = {id: 2 for id in devices.keys()}
+    tensor_size = {id: INITIAL_TENSOR_SIZE for id in devices.keys()}
 
     # Do some fake taining
     assert args.train_time > 0, "Fake training must last longer than 0 seconds."
