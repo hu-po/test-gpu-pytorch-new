@@ -16,8 +16,10 @@ parser.add_argument('--gpu', type=str, default="0", help='Comma seperated list o
 # How long should this fake training script run for?
 parser.add_argument("--train_time", type=int, default=30)
 
-# Target steady state gpu utilization
-parser.add_argument("--target_gpu_utilization", type=float, default=0.9)
+# TODO: args?
+TARGET_GPU_UTILIZATION = 0.9
+MIN_LOG_INTERVAL = 1
+GPU_MEM_GROWTH_RATE = 1.07
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -78,8 +80,13 @@ if __name__ == "__main__":
     assert args.train_time > 0, "Fake training must last longer than 0 seconds."
     print('\n---\tFake Training\t---\n')
     start_time = time.time()
+    old_time_remaining = args.train_time
     while time.time() - start_time < args.train_time:
         time_remaining = int(args.train_time - (time.time() - start_time))
+        # Don't spam too much
+        if old_time_remaining - time_remaining < MIN_LOG_INTERVAL:
+            continue
+        old_time_remaining = time_remaining
         print(f'\tTraining, {time_remaining} seconds remaining.')
         wandb.log({"time.remaining": time_remaining})
         wandb.log({"time.now": time.time()})
@@ -94,8 +101,8 @@ if __name__ == "__main__":
             utilization = _used / _total
             wandb.log({f"gpu.mem.utilization.{id}": utilization})
             print(f'\t\tGPU {id} Memory Utilization at {utilization}')
-            if utilization < args.target_gpu_utilization:
-                tensor_size[id] *= 1.07
+            if utilization < TARGET_GPU_UTILIZATION:
+                tensor_size[id] *= GPU_MEM_GROWTH_RATE
             print(f'\t\t A ({_tensor_size},{_tensor_size}) x B ({_tensor_size},{_tensor_size})')
 
     wandb.finish()
