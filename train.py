@@ -87,7 +87,7 @@ if __name__ == "__main__":
         time_remaining = int(args.train_time - (time.time() - start_time))
         # Don't spam too much
         if old_time_remaining - time_remaining < MIN_LOG_INTERVAL:
-            continue
+            pass # continue
         old_time_remaining = time_remaining
         print(f'\tTraining, {time_remaining} seconds remaining.')
         wandb.log({"time.remaining": time_remaining})
