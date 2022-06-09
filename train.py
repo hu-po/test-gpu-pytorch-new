@@ -18,7 +18,7 @@ parser.add_argument("--train_time", type=int, default=30)
 
 # TODO: args?
 TARGET_GPU_UTILIZATION = 0.9
-MIN_LOG_INTERVAL = 1
+MIN_LOG_INTERVAL = 0.1
 GPU_MEM_GROWTH_RATE = 1.07
 INITIAL_TENSOR_SIZE = 8
 
